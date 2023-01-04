@@ -17,23 +17,25 @@ const path_1 = __importDefault(require("path"));
 const fs_1 = require("fs");
 const imgExists_1 = __importDefault(require("../../utilities/imgExists"));
 const imgSharp_1 = __importDefault(require("../../utilities/imgSharp"));
+const fileExtension_1 = __importDefault(require("../../utilities/fileExtension"));
+const fileName_1 = __importDefault(require("../../utilities/fileName"));
 const imgResize = express_1.default.Router();
 imgResize.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const widthParam = parseInt(req.query.width, 10);
     const fileParam = req.query.filename;
     const heightParam = parseInt(req.query.height, 10);
     if (!heightParam || !widthParam || !fileParam) {
-        res.status(400).send("Error!please check that your width,height are numbers and filename is a valid string");
+        res.status(400).send('Error!please check that your width,height are numbers and filename is a valid string');
         return;
     }
     if (widthParam <= 0 || heightParam <= 0) {
-        res.status(400).send("Error!please check that your width and height parameters are positive and are numbers");
+        res.status(400).send('Error!please check that your width and height parameters are positive and are numbers');
         return;
     }
     const fullDir = path_1.default.resolve(__dirname, `../../../assets/images/full/${fileParam}`);
     const thumbDir = path_1.default.resolve(__dirname, `../../../assets/images/thumb/`);
     if (!(0, imgExists_1.default)(fullDir)) {
-        res.status(400).send("Error!, image does not exist in folder, Please try inputing an image name that exists");
+        res.status(400).send('Error!, image does not exist in folder, Please try inputing an image name that exists');
         return;
     }
     try {
@@ -41,22 +43,16 @@ imgResize.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
     catch (_a) {
         yield fs_1.promises.mkdir(thumbDir);
-        console.log("dir created");
+        console.log('dir created');
     }
-    const thumbPath = path_1.default.resolve(__dirname, `../../../assets/images/thumb/${fileParam}`);
-    if ((0, imgExists_1.default)(thumbPath)) {
+    const newFname = (0, fileName_1.default)(fileParam);
+    const thumbPath = path_1.default.resolve(__dirname, `../../../assets/images/thumb/${newFname}-${widthParam}-${heightParam}.${(0, fileExtension_1.default)(fileParam)}`);
+    if (!(0, imgExists_1.default)(thumbPath)) {
         const imageResized = yield (0, imgSharp_1.default)(widthParam, heightParam, fullDir, fileParam);
         if (!imageResized) {
-            res.status(400).send("Error! cannot display the resized image");
+            res.status(400).send('Error! cannot display the resized image');
         }
-        res.status(200).sendFile(thumbPath);
     }
-    else {
-        const imgResized = yield (0, imgSharp_1.default)(widthParam, heightParam, fullDir, fileParam);
-        if (!imgResized) {
-            res.status(400).send("Error! could not resize image");
-        }
-        res.status(200).sendFile(thumbPath);
-    }
+    res.status(200).sendFile(thumbPath);
 }));
 exports.default = imgResize;
