@@ -26,7 +26,10 @@ imgList.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         files.forEach((file) => {
             // eslint-disable-next-line no-constant-condition
             //displays image files that are of jpg or jpeg format only from folder
-            if (((0, fileExtension_1.default)(file)) == 'jpg' || ((0, fileExtension_1.default)(file)) == 'jpeg' || ((0, fileExtension_1.default)(file)) == 'JPEG' || ((0, fileExtension_1.default)(file)) == 'JPG') {
+            if ((0, fileExtension_1.default)(file) == 'jpg' ||
+                (0, fileExtension_1.default)(file) == 'jpeg' ||
+                (0, fileExtension_1.default)(file) == 'JPEG' ||
+                (0, fileExtension_1.default)(file) == 'JPG') {
                 fileList = fileList + `<p>${file}</p>`;
             }
         });
@@ -37,7 +40,7 @@ imgList.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         <br>` + fileList);
     }
     catch (err) {
-        res.status(500).send("Error! Cannot read from Directory");
+        res.status(500).send('Error! Cannot read from Directory');
     }
 }));
 exports.default = imgList;

@@ -15,15 +15,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sharp_1 = __importDefault(require("sharp"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = require("fs");
+const fileName_1 = __importDefault(require("./fileName"));
+const fileExtension_1 = __importDefault(require("./fileExtension"));
 const sharpResizeImg = (width, height, inputPath, fname) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const thumbDir = path_1.default.resolve(__dirname, `../../assets/images/thumb/`);
-        const outPath = path_1.default.join(thumbDir, fname);
+        const fileName = (0, fileName_1.default)(fname);
+        const newFname = fileName +
+            `-${width}-` +
+            `${height}.` +
+            `${(0, fileExtension_1.default)(fname)}`;
+        const outPath = path_1.default.join(thumbDir, newFname);
         const ImgSharpBuffer = yield (0, sharp_1.default)(inputPath)
             .resize(width, height)
             .toBuffer();
-        yield fs_1.promises.writeFile(outPath, ImgSharpBuffer).then(() => { return true; });
-        console.log("resize successful");
+        yield fs_1.promises.writeFile(outPath, ImgSharpBuffer).then(() => {
+            return true;
+        });
+        console.log('resize successful');
         return true;
     }
     catch (_a) {

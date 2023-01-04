@@ -6,7 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const fileExtension_1 = __importDefault(require("./fileExtension"));
 function imgExists(imgPath) {
-    if ((0, fs_1.existsSync)(imgPath) == true && (0, fileExtension_1.default)(imgPath) == 'jpg' || (0, fileExtension_1.default)(imgPath) == 'jpeg' || (0, fileExtension_1.default)(imgPath) == 'JPEG' || (0, fileExtension_1.default)(imgPath) == 'JPEG') {
+    if (((0, fs_1.existsSync)(imgPath) == true && (0, fileExtension_1.default)(imgPath) == 'jpg') ||
+        (0, fileExtension_1.default)(imgPath) == 'jpeg' ||
+        (0, fileExtension_1.default)(imgPath) == 'JPEG' ||
+        (0, fileExtension_1.default)(imgPath) == 'JPEG') {
         return true;
     }
     else {

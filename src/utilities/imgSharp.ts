@@ -1,6 +1,8 @@
 import sharp from 'sharp';
 import path from 'path';
 import { promises as fsPromises } from 'fs';
+import getFileName from './fileName';
+import getFileExtension from './fileExtension';
 
 const sharpResizeImg = async (
     width: number,
@@ -10,7 +12,13 @@ const sharpResizeImg = async (
 ): Promise<boolean> => {
     try {
         const thumbDir = path.resolve(__dirname, `../../assets/images/thumb/`);
-        const outPath = path.join(thumbDir, fname);
+        const fileName = getFileName(fname);
+        const newFname =
+            fileName +
+            `-${width}-` +
+            `${height}.` +
+            `${getFileExtension(fname)}`;
+        const outPath = path.join(thumbDir, newFname);
         const ImgSharpBuffer = await sharp(inputPath)
             .resize(width, height)
             .toBuffer();
