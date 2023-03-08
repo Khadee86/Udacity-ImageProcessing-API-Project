@@ -5,9 +5,9 @@ This is a project from the Udacity Full Stack Developer Program, that using shar
 The project was completed using express, sharp, prettier, ESLint, jasmine and TypeScript.Although it was not a complex project, I found it a challenging process to learn how to sue all these technologies and concepts together. However, it required a lot of research and backtracking of the tutorial modules and I was able to Successfully Complete the project.
 
 
-API/PATH
+##API/PATH
 
-1. /api/image?filename=sample.jpg
+* /api/image?filename=sample.jpg
 
 This path is used to display the original image in the full folder.
 
